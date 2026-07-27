@@ -1,0 +1,23 @@
+Categories:
+  - Phone & SMS
+License: GPL-3.0-or-later
+SourceCode: https://github.com/jacoblaram19/capman-dialer
+IssueTracker: https://github.com/jacoblaram19/capman-dialer/issues
+
+AutoName: Cap-Man Dialer
+
+RepoType: git
+Repo: https://github.com/jacoblaram19/capman-dialer.git
+
+Builds:
+  - versionName: '1.0'
+    versionCode: 1
+    commit: '1.0'
+    subdir: app
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: '1.0'
+CurrentVersionCode: 1
