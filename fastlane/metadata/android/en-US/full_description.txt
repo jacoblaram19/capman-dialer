@@ -1,0 +1,31 @@
+A replacement phone app for Android: dialer, contacts, call history and a full call screen, with an arcade twist on answering.
+
+<b>The call screen</b>
+
+An incoming call gives you two things to grab, each with one destination:
+
+* Drag the chomper onto the green handset to answer. It eats the pellets on the way.
+* Drag the skull onto the chomper to reject.
+
+Two independent drags means a fast diagonal swipe can never lock onto the wrong action.
+
+<b>Features</b>
+
+* Recents grouped per number, with an expandable "+2" for repeat calls
+* A "Missed" filter that hides anything you have already called back
+* Horizontal favorites strip with drag-to-reorder
+* Per-contact notes, shown on screen the next time that person calls
+* Per-contact ringtones, including your own music
+* Reject with a canned SMS reply, or "remind me in X minutes"
+* System-wide number blocking, using Android's own blocked-number list
+* Motion shortcuts: raise to ear to answer, flip face down to silence, power key to silence and blank the screen
+* Proximity blanking during a call
+* Contacts import and export as .vcf
+* Five selectable launcher icons, light and dark themes
+* A first-run tour that lets you practise the gesture on a fake call
+
+<b>What it deliberately does not do</b>
+
+* No internet access. There is no INTERNET permission at all.
+* No writing to your call log. Only READ_CALL_LOG is requested.
+* No recording of the other party. Since Android 10 an ordinary app cannot reach the call audio stream, so the record button stays hidden unless the device is rooted.

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_key"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/text"
+            android:scaleType="centerInside"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Settings"
+            android:textSize="19sp"
+            android:textColor="@color/text"
+            android:fontFamily="sans-serif-medium" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
+
+            <TextView style="@style/SettingsHeader" android:text="APPEARANCE" />
+            <include android:id="@+id/rowTheme" layout="@layout/item_setting" />
+            <include android:id="@+id/rowAppIcon" layout="@layout/item_setting" />
+
+            <TextView style="@style/SettingsHeader" android:text="CONTACTS" />
+            <include android:id="@+id/rowDefaultAccount" layout="@layout/item_setting" />
+            <include android:id="@+id/rowExport" layout="@layout/item_setting" />
+            <include android:id="@+id/rowImport" layout="@layout/item_setting" />
+
+            <TextView style="@style/SettingsHeader" android:text="CALLS" />
+            <include android:id="@+id/rowHistory" layout="@layout/item_setting" />
+            <include android:id="@+id/rowQuickReply" layout="@layout/item_setting" />
+            <include android:id="@+id/rowPowerDouble" layout="@layout/item_setting" />
+            <include android:id="@+id/rowVolumeSilence" layout="@layout/item_setting" />
+            <include android:id="@+id/rowIncomingStyle" layout="@layout/item_setting" />
+            <include android:id="@+id/rowPowerSilence" layout="@layout/item_setting" />
+            <include android:id="@+id/rowEarAnswer" layout="@layout/item_setting" />
+            <include android:id="@+id/rowFlipSilence" layout="@layout/item_setting" />
+            <include android:id="@+id/rowProximity" layout="@layout/item_setting" />
+            <include android:id="@+id/rowRecordSpeaker" layout="@layout/item_setting" />
+            <include android:id="@+id/rowKeyFeedback" layout="@layout/item_setting" />
+            <include android:id="@+id/rowBlocked" layout="@layout/item_setting" />
+            <include android:id="@+id/rowReminders" layout="@layout/item_setting" />
+            <include android:id="@+id/rowPreview" layout="@layout/item_setting" />
+
+            <TextView style="@style/SettingsHeader" android:text="SYSTEM" />
+            <include android:id="@+id/rowDefaultDialer" layout="@layout/item_setting" />
+            <include android:id="@+id/rowTour" layout="@layout/item_setting" />
+            <include android:id="@+id/rowAbout" layout="@layout/item_setting" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

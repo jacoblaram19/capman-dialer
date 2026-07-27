@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/obSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Skip"
+        android:textSize="14sp"
+        android:textColor="@color/text_faint"
+        android:background="@drawable/bg_key"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Her adimin gorseli buraya yerlesir -->
+    <FrameLayout
+        android:id="@+id/obStage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/obTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:textSize="21sp"
+        android:textColor="@color/text"
+        android:fontFamily="sans-serif-light" />
+
+    <TextView
+        android:id="@+id/obBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="34dp"
+        android:paddingEnd="34dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_dim" />
+
+    <LinearLayout
+        android:id="@+id/obDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal" />
+
+    <TextView
+        android:id="@+id/obNext"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:gravity="center"
+        android:background="@drawable/bg_gold_button"
+        android:text="Next"
+        android:textSize="16sp"
+        android:textColor="#20180A"
+        android:fontFamily="sans-serif-medium"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>

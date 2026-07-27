@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true">
+
+    <!-- Ust cubuk -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_key"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/text"
+            android:scaleType="centerInside"
+            android:contentDescription="Back" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Favorilere al / cikar -->
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_key"
+            android:src="@drawable/ic_star_border"
+            android:tint="@color/gold"
+            android:scaleType="centerInside"
+            android:contentDescription="Add to favorites" />
+
+        <ImageButton
+            android:id="@+id/edit"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_key"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/text_dim"
+            android:scaleType="centerInside"
+            android:contentDescription="@string/edit_contact" />
+
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_key"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/text_dim"
+            android:scaleType="centerInside"
+            android:contentDescription="@string/delete" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
+
+            <!-- Kisi basligi -->
+            <FrameLayout
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_avatar">
+
+                <TextView
+                    android:id="@+id/avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="36sp"
+                    android:textColor="@color/gold"
+                    android:fontFamily="sans-serif-light" />
+
+                <ImageView
+                    android:id="@+id/avatarPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    android:contentDescription="@null" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textColor="@color/text"
+                android:fontFamily="sans-serif-light" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:textColor="@color/text_faint" />
+
+            <!-- Hizli eylemler -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:orientation="horizontal">
+
+                <LinearLayout android:id="@+id/actionCall" style="@style/DetailAction">
+                    <ImageView
+                        style="@style/DetailActionIcon"
+                        android:background="@drawable/bg_circle_green"
+                        android:src="@drawable/ic_phone"
+                        android:tint="@color/green" />
+                    <TextView style="@style/DetailActionLabel" android:text="@string/call" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/actionMessage" style="@style/DetailAction">
+                    <ImageView
+                        style="@style/DetailActionIcon"
+                        android:background="@drawable/bg_circle_surface"
+                        android:src="@drawable/ic_message"
+                        android:tint="@color/text" />
+                    <TextView style="@style/DetailActionLabel" android:text="Message" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/actionWhatsApp" style="@style/DetailAction">
+                    <ImageView
+                        style="@style/DetailActionIcon"
+                        android:background="@drawable/bg_circle_green"
+                        android:src="@drawable/ic_whatsapp"
+                        android:tint="@color/green" />
+                    <TextView style="@style/DetailActionLabel" android:text="WhatsApp" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/actionEdit" style="@style/DetailAction">
+                    <ImageView
+                        android:id="@+id/actionEditIcon"
+                        style="@style/DetailActionIcon"
+                        android:background="@drawable/bg_circle_surface"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@color/text" />
+                    <TextView
+                        android:id="@+id/actionEditLabel"
+                        style="@style/DetailActionLabel"
+                        android:text="Edit" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/actionBlock" style="@style/DetailAction">
+                    <ImageView
+                        android:id="@+id/actionBlockIcon"
+                        style="@style/DetailActionIcon"
+                        android:background="@drawable/bg_circle_red"
+                        android:src="@drawable/ic_block"
+                        android:tint="@color/red" />
+                    <TextView
+                        android:id="@+id/actionBlockLabel"
+                        style="@style/DetailActionLabel"
+                        android:text="Block" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Not: kisiye degil numaraya bagli, rehberde kayitli olmayanlarda da calisir -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="8dp"
+                android:text="NOTE"
+                android:textSize="11sp"
+                android:textColor="@color/gold"
+                android:letterSpacing="0.2"
+                android:fontFamily="sans-serif-medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_card">
+
+                <EditText
+                    android:id="@+id/noteText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:minHeight="72dp"
+                    android:gravity="top|start"
+                    android:padding="16dp"
+                    android:hint="Short note… (gave the address, calling Tuesday, painter)"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:imeOptions="actionDone"
+                    android:textSize="15sp"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/text_faint" />
+            </LinearLayout>
+
+            <!-- Numaralar -->
+            <TextView
+                android:id="@+id/numbersTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="8dp"
+                android:text="NUMBERS"
+                android:textSize="11sp"
+                android:textColor="@color/gold"
+                android:letterSpacing="0.2"
+                android:fontFamily="sans-serif-medium" />
+
+            <LinearLayout
+                android:id="@+id/numbersContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_card"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+
+            <!-- Gorusmeler -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="8dp"
+                android:text="CALL HISTORY"
+                android:textSize="11sp"
+                android:textColor="@color/gold"
+                android:letterSpacing="0.2"
+                android:fontFamily="sans-serif-medium" />
+
+            <LinearLayout
+                android:id="@+id/callsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_card"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/showAllCalls"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp"
+                android:background="@drawable/bg_pill"
+                android:text="Show all entries"
+                android:textSize="14sp"
+                android:textColor="@color/gold"
+                android:fontFamily="sans-serif-medium"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="10dp">
+
+    <EditText
+        android:id="@+id/numberInput"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_input"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:hint="@string/number_hint"
+        android:textSize="17sp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text_faint"
+        android:inputType="phone"
+        android:maxLines="1" />
+
+    <ImageButton
+        android:id="@+id/removeNumber"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/bg_key"
+        android:src="@drawable/ic_close"
+        android:tint="@color/text_faint"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/delete" />
+</LinearLayout>

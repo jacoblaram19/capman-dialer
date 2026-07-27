@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hayalet: govde + dalgali etek + gozler -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FF5C7A"
+        android:pathData="M30,58 a24,24 0 0,1 48,0 V76 l-8,-6 -8,6 -8,-6 -8,6 -8,-6 -8,6 Z" />
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M44,52 a6,7.5 0 1,0 0.01,0 z M64,52 a6,7.5 0 1,0 0.01,0 z" />
+    <path android:fillColor="#1A2230"
+        android:pathData="M46,53 a2.6,3.2 0 1,0 0.01,0 z M66,53 a2.6,3.2 0 1,0 0.01,0 z" />
+</vector>

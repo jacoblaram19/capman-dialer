@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LIGHT theme. The dark palette lives in res/values-night/colors.xml. -->
+    <color name="bg">#FBFCFD</color>
+    <color name="bg_elev">#FFFFFF</color>
+    <color name="surface">#F1F3F7</color>
+    <color name="surface_hi">#E6EAF0</color>
+    <color name="stroke">#D8DEE6</color>
+
+    <color name="text">#0C1116</color>
+    <color name="text_dim">#57646F</color>
+    <color name="text_faint">#8794A1</color>
+
+    <color name="gold">#8A6D24</color>
+    <color name="gold_soft">#C2A96E</color>
+
+    <color name="green">#0B8F57</color>
+    <color name="green_deep">#0A6B42</color>
+    <color name="red">#C62841</color>
+    <color name="red_deep">#8E122A</color>
+    <color name="chomp_yellow">#E9B800</color>
+    <color name="blue">#1660CF</color>
+
+    <color name="ripple">#18000000</color>
+    <color name="scrim">#66000000</color>
+    <color name="overlay">#12000000</color>
+    <color name="overlay_stroke">#1F000000</color>
+</resources>

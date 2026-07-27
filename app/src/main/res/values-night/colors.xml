@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DARK theme: deep midnight blue-black with warm gold accents -->
+    <color name="bg">#070A0E</color>
+    <color name="bg_elev">#0E141C</color>
+    <color name="surface">#141C26</color>
+    <color name="surface_hi">#1C2733</color>
+    <color name="stroke">#233040</color>
+
+    <color name="text">#F2F6FB</color>
+    <color name="text_dim">#93A3B5</color>
+    <color name="text_faint">#5E6E80</color>
+
+    <color name="gold">#C8A96A</color>
+    <color name="gold_soft">#8A7648</color>
+
+    <color name="green">#2EE59D</color>
+    <color name="green_deep">#0F8F5F</color>
+    <color name="red">#FF4D6D</color>
+    <color name="red_deep">#A81736</color>
+    <color name="chomp_yellow">#FFD426</color>
+    <color name="blue">#4FA8FF</color>
+
+    <color name="ripple">#22FFFFFF</color>
+    <color name="scrim">#B3000000</color>
+    <color name="overlay">#1FFFFFFF</color>
+    <color name="overlay_stroke">#26FFFFFF</color>
+</resources>
