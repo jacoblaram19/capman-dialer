@@ -1,8 +1,10 @@
 package com.capman.dialer;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +14,19 @@ import android.util.Log;
 import android.os.SystemClock;
 import android.view.animation.OvershootInterpolator;
 import android.telecom.Call;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -244,6 +251,11 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         findViewById(R.id.actSpeaker).setOnClickListener(v -> {
             pressPulse(R.id.actSpeakerIcon);
             if (preview) return;
+            // With a Bluetooth device around, toggling is not enough: ask where to
+            if (AudioRoutes.needsPicker()) {
+                showAudioRoutePicker();
+                return;
+            }
             boolean next = !speakerOn();
             optSpeaker = next;
             optSpeakerAt = SystemClock.uptimeMillis();
@@ -558,6 +570,62 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         return (optHold != null && fresh(optHoldAt)) ? optHold : CallManager.isOnHold();
     }
 
+    /**
+     * Should the button look lit? In picker mode the question is not "is the
+     * speaker on" but "is the audio going somewhere other than the earpiece".
+     */
+    private boolean speakerHighlight() {
+        if (preview || !AudioRoutes.needsPicker()) return speakerOn();
+        return CallManager.currentRoute() != android.telecom.CallAudioState.ROUTE_EARPIECE;
+    }
+
+    // ------------------------------------------------------------------ audio output
+
+    /**
+     * The "where should the sound come out?" sheet. It slides up from the bottom;
+     * each row carries the device's icon, its name and a tick when it is active.
+     */
+    private void showAudioRoutePicker() {
+        List<AudioRoutes.Option> options = AudioRoutes.list(this);
+        if (options.size() < 2) return;
+
+        View sheet = getLayoutInflater().inflate(R.layout.dialog_audio_route, null);
+        LinearLayout list = sheet.findViewById(R.id.routeList);
+
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+        dialog.setContentView(sheet);
+        Window w = dialog.getWindow();
+        if (w != null) {
+            w.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            w.setGravity(Gravity.BOTTOM);
+            w.setBackgroundDrawable(new ColorDrawable(0x99000000));
+            w.setWindowAnimations(android.R.style.Animation_InputMethod);
+        }
+
+        for (AudioRoutes.Option o : options) {
+            View row = getLayoutInflater().inflate(R.layout.item_audio_route, list, false);
+            ImageView icon = row.findViewById(R.id.routeIcon);
+            TextView label = row.findViewById(R.id.routeLabel);
+            icon.setImageResource(o.icon);
+            icon.setColorFilter(getColor(o.active ? R.color.gold : R.color.text_dim));
+            label.setText(o.label);
+            label.setTextColor(getColor(o.active ? R.color.gold : R.color.text));
+            row.findViewById(R.id.routeCheck)
+                    .setVisibility(o.active ? View.VISIBLE : View.INVISIBLE);
+            row.setOnClickListener(v -> {
+                dialog.dismiss();
+                tick();
+                // Repaint at once and let the real switch happen behind it
+                optSpeaker = o.route == android.telecom.CallAudioState.ROUTE_SPEAKER;
+                optSpeakerAt = SystemClock.uptimeMillis();
+                update();
+                AudioRoutes.apply(o);
+            });
+            list.addView(row);
+        }
+        dialog.show();
+    }
+
     /** For trying the screen without a real call. */
     private void updatePreview() {
         callerName.setText("Test call");
@@ -663,7 +731,7 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
 
         boolean busy = recorder.isRecording() || recorder.isStarting();
         paintToggle(R.id.actMuteIcon, muteOn());
-        paintToggle(R.id.actSpeakerIcon, speakerOn());
+        paintToggle(R.id.actSpeakerIcon, speakerHighlight());
         paintToggle(R.id.actHoldIcon, holdOn());
         paintToggle(R.id.actRecordIcon, busy);
 
@@ -675,6 +743,7 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
                         : holdOn() ? "Resume" : "Hold");
         ((ImageView) findViewById(R.id.actHoldIcon)).setImageResource(
                 twoCalls ? R.drawable.ic_swap_calls : R.drawable.ic_pause);
+        paintSpeakerButton();
         ((TextView) findViewById(R.id.actRecordLabel))
                 .setText(recorder.isStarting() ? "Starting…"
                         : recorder.isRecording() ? "Stop recording" : "Record");
@@ -693,6 +762,34 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         recordingBadge.setVisibility(View.VISIBLE);
         recordingBadge.setText(recorder.isSilent()
                 ? "● RECORDING · NO AUDIO" : "● RECORDING");
+    }
+
+    /**
+     * The speaker button.
+     *
+     * With no Bluetooth device it stays the plain "Speaker" on/off button it
+     * always was. With one connected it becomes a PICKER: it shows the name and
+     * icon of whatever the sound is currently coming out of, and opens the list
+     * on tap.
+     */
+    private void paintSpeakerButton() {
+        ImageView icon = findViewById(R.id.actSpeakerIcon);
+        TextView label = findViewById(R.id.actSpeakerLabel);
+        if (icon == null || label == null) return;
+
+        if (preview || !AudioRoutes.needsPicker()) {
+            icon.setImageResource(R.drawable.ic_speaker);
+            label.setText("Speaker");
+            return;
+        }
+        int route = CallManager.currentRoute();
+        icon.setImageResource(
+                route == android.telecom.CallAudioState.ROUTE_BLUETOOTH ? R.drawable.ic_bluetooth
+                        : route == android.telecom.CallAudioState.ROUTE_WIRED_HEADSET
+                        ? R.drawable.ic_headset
+                        : route == android.telecom.CallAudioState.ROUTE_SPEAKER
+                        ? R.drawable.ic_speaker : R.drawable.ic_phone);
+        label.setText(AudioRoutes.currentLabel(this));
     }
 
     /** Show the on/off state through the button's colour. */

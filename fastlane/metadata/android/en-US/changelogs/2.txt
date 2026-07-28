@@ -1,0 +1,2 @@
+Bluetooth and wired audio devices can now be picked as the call output.
+Turning the speaker off returns to a connected headset instead of the earpiece.

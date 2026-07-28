@@ -831,6 +831,13 @@ public class MainActivity extends BaseActivity
                 != PackageManager.PERMISSION_GRANTED) {
             need.add(Manifest.permission.POST_NOTIFICATIONS);
         }
+        // Only so the audio output list can show a Bluetooth device's name.
+        // Everything still works if it is denied; the device reads "Bluetooth".
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED) {
+            need.add(Manifest.permission.BLUETOOTH_CONNECT);
+        }
         return need;
     }
 

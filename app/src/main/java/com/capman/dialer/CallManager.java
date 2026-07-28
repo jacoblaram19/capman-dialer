@@ -1,6 +1,7 @@
 package com.capman.dialer;
 
 import android.content.Context;
+import android.os.Build;
 import android.telecom.Call;
 import android.telecom.CallAudioState;
 import android.telecom.InCallService;
@@ -254,15 +255,92 @@ public final class CallManager {
         return s != null && s.isMuted();
     }
 
+    /**
+     * Turns the speaker on and off.
+     *
+     * Switching off does NOT blindly fall back to the earpiece: with a Bluetooth
+     * device connected the audio has to go back there. A hard-coded
+     * {@code ROUTE_WIRED_OR_EARPIECE} is what used to drop the call to the
+     * earpiece when you toggled the speaker off on a Bluetooth headset.
+     */
     public static void setSpeaker(boolean on) {
         if (service == null) return;
-        service.setAudioRoute(on ? CallAudioState.ROUTE_SPEAKER
-                : CallAudioState.ROUTE_WIRED_OR_EARPIECE);
+        if (on) {
+            service.setAudioRoute(CallAudioState.ROUTE_SPEAKER);
+            return;
+        }
+        if ((supportedRoutes() & CallAudioState.ROUTE_BLUETOOTH) != 0) {
+            useBluetooth(activeBluetoothDevice());
+            return;
+        }
+        service.setAudioRoute(CallAudioState.ROUTE_WIRED_OR_EARPIECE);
     }
 
     public static boolean isSpeakerOn() {
         CallAudioState s = audioState();
         return s != null && s.getRoute() == CallAudioState.ROUTE_SPEAKER;
+    }
+
+    // ------------------------------------------------------------------ audio route
+
+    /** Which outputs exist on this device: a {@link CallAudioState} ROUTE_* mask. */
+    public static int supportedRoutes() {
+        CallAudioState s = audioState();
+        return s == null ? 0 : s.getSupportedRouteMask();
+    }
+
+    /** Where is the audio coming out right now? */
+    public static int currentRoute() {
+        CallAudioState s = audioState();
+        return s == null ? CallAudioState.ROUTE_EARPIECE : s.getRoute();
+    }
+
+    /** Connected Bluetooth audio devices. Empty before API 28, which has no list. */
+    public static List<android.bluetooth.BluetoothDevice> bluetoothDevices() {
+        CallAudioState s = audioState();
+        if (s == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            return new ArrayList<>();
+        }
+        try {
+            java.util.Collection<android.bluetooth.BluetoothDevice> d =
+                    s.getSupportedBluetoothDevices();
+            return d == null ? new ArrayList<>() : new ArrayList<>(d);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public static android.bluetooth.BluetoothDevice activeBluetoothDevice() {
+        CallAudioState s = audioState();
+        if (s == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return null;
+        try {
+            return s.getActiveBluetoothDevice();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static void setAudioRoute(int route) {
+        if (service == null) return;
+        try {
+            service.setAudioRoute(route);
+        } catch (Exception e) {
+            Log.e(TAG, "could not change the audio route", e);
+        }
+    }
+
+    /** Switches to the given Bluetooth device, or the generic route if unknown. */
+    public static void useBluetooth(android.bluetooth.BluetoothDevice device) {
+        if (service == null) return;
+        try {
+            if (device != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                service.requestBluetoothAudio(device);
+            } else {
+                service.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "could not switch to the Bluetooth device", e);
+        }
     }
 
     private static CallAudioState audioState() {

@@ -226,7 +226,10 @@
                 <LinearLayout android:id="@+id/actSpeaker" style="@style/CallAction">
                     <ImageView android:id="@+id/actSpeakerIcon" style="@style/CallActionIcon"
                         android:src="@drawable/ic_speaker" />
+                    <!-- A Bluetooth device name can be long; keep it on one line -->
                     <TextView android:id="@+id/actSpeakerLabel" style="@style/CallActionLabel"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="Speaker" />
                 </LinearLayout>
             </LinearLayout>

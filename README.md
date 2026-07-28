@@ -24,6 +24,8 @@ lock onto the wrong action.
 * Per-contact ringtones, including your own music
 * Reject with a canned SMS reply, or "remind me in X minutes"
 * System-wide number blocking (uses Android's own blocked-number list)
+* Pick the call audio output: speaker, earpiece, wired headset or any
+  connected Bluetooth device, by name
 * Motion shortcuts: raise to ear to answer, flip face down to silence,
   power key to silence and blank the screen
 * Proximity blanking during a call
