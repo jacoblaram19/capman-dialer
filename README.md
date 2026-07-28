@@ -33,6 +33,9 @@ lock onto the wrong action.
 * Five selectable launcher icons
 * Light and dark themes
 * A first-run tour that lets you practise the gesture on a fake call
+* Call recording **on rooted devices only** — without root the button is
+  hidden, because Android hands ordinary apps nothing but silence during a
+  call (see below)
 
 ## What it deliberately does not do
 

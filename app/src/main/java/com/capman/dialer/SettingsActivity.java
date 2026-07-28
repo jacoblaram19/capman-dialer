@@ -118,7 +118,7 @@ public class SettingsActivity extends BaseActivity {
                     Prefs.setOnboardingSeen(this, false);
                     startActivity(OnboardingActivity.intent(this));
                 });
-        row(R.id.rowAbout, "About", "Cap-Man Dialer 1.0", this::showAbout);
+        row(R.id.rowAbout, "About", "Cap-Man Dialer " + versionName(), this::showAbout);
     }
 
     private void row(int id, String title, String value, Runnable onClick) {
@@ -465,10 +465,19 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
+    /** Keep the version in one place: read it from the package itself. */
+    private String versionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     private void showAbout() {
         new AlertDialog.Builder(this)
                 .setTitle("Cap-Man Dialer")
-                .setMessage("Version 1.0\n\n"
+                .setMessage("Version " + versionName() + "\n\n"
                         + "Drag the chomper onto the handset to answer.\n"
                         + "Drag the skull onto the chomper to reject.\n"
                         + "Double-press the power key to reject or hang up.\n"

@@ -24,6 +24,7 @@ Two independent drags means a fast diagonal swipe can never lock onto the wrong 
 * Contacts import and export as .vcf
 * Five selectable launcher icons, light and dark themes
 * A first-run tour that lets you practise the gesture on a fake call
+* Call recording on rooted devices only - without root the button is hidden, because Android gives ordinary apps nothing but silence during a call
 
 <b>What it deliberately does not do</b>
 

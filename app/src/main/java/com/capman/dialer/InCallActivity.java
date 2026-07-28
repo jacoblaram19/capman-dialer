@@ -628,9 +628,9 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
 
     /** For trying the screen without a real call. */
     private void updatePreview() {
-        callerName.setText("Test call");
+        callerName.setText("John Wick");
         callerNumber.setText(PhoneUtil.pretty("05551234567"));
-        avatar.setText("T");
+        avatar.setText("J");
         setupWhatsAppShortcut("05551234567");
 
         boolean ringing = !previewAnswered;
