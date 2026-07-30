@@ -13,7 +13,7 @@ Repo: https://github.com/jacoblaram19/capman-dialer.git
 Builds:
   - versionName: 1.0.3
     versionCode: 4
-    commit: PENDING
+    commit: 90dc2887aa4df47ecfb3fbf4f9c8f00bd0a9e7a0
     subdir: app
     gradle:
       - yes
