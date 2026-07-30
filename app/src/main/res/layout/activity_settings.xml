@@ -60,6 +60,8 @@
             <include android:id="@+id/rowQuickReply" layout="@layout/item_setting" />
             <include android:id="@+id/rowPowerDouble" layout="@layout/item_setting" />
             <include android:id="@+id/rowVolumeSilence" layout="@layout/item_setting" />
+            <include android:id="@+id/rowSpeedDialConfirm" layout="@layout/item_setting" />
+            <include android:id="@+id/rowCallStyle" layout="@layout/item_setting" />
             <include android:id="@+id/rowIncomingStyle" layout="@layout/item_setting" />
             <include android:id="@+id/rowPowerSilence" layout="@layout/item_setting" />
             <include android:id="@+id/rowEarAnswer" layout="@layout/item_setting" />

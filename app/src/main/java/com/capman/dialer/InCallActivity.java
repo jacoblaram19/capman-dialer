@@ -120,6 +120,7 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         showOverLockScreen();
         setContentView(R.layout.activity_incall);
         bindViews();
+        applyLookAndFeel();
         setupProximity();
         setupGestures();
         setupRecorder();
@@ -174,6 +175,20 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    /**
+     * The background and theme the user picked. The background is built for the
+     * screen size; with a photo, cropping and blurring happen here.
+     */
+    private void applyLookAndFeel() {
+        View root = findViewById(R.id.incallRoot);
+        if (root != null) {
+            root.setBackground(CallBackground.current(this,
+                    getResources().getDisplayMetrics().widthPixels,
+                    getResources().getDisplayMetrics().heightPixels));
+        }
+        if (chomper != null) chomper.setTheme(Prefs.callTheme(this));
     }
 
     private void bindViews() {
@@ -394,6 +409,20 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         final float startCy = p[1] - r[1] + chomper.answerCenterY();
         final float startScale = (2f * chomper.answerRadius()) / morph.getLayoutParams().width;
 
+        // Confetti lives in its own layer so hiding the incoming panel cannot take
+        // it away. The hang-up button may not be measured yet, so wait for layout.
+        final android.view.ViewGroup rootGroup = (android.view.ViewGroup) root;
+        final int themeNow = Prefs.callTheme(this);
+        hangup.post(() -> {
+            int[] h = new int[2], rr = new int[2];
+            hangup.getLocationInWindow(h);
+            root.getLocationInWindow(rr);
+            float sinkX = h[0] - rr[0] + hangup.getWidth() / 2f;
+            float sinkY = h[1] - rr[1] + hangup.getHeight() / 2f;
+            CelebrationView.launch(rootGroup, themeNow, startCx, startCy,
+                    sinkX, sinkY, chomper.answerRadius());
+        });
+
         incomingPanel.setVisibility(View.GONE);
         activePanel.setVisibility(View.VISIBLE);
         hangup.setAlpha(0f);
@@ -401,7 +430,7 @@ public class InCallActivity extends BaseActivity implements CallManager.Listener
         final android.graphics.drawable.GradientDrawable circle =
                 new android.graphics.drawable.GradientDrawable();
         circle.setShape(android.graphics.drawable.GradientDrawable.OVAL);
-        circle.setColor(getColor(R.color.green));
+        circle.setColor(CallThemes.answerColor(Prefs.callTheme(this)));
         morph.setBackground(circle);
         morph.setVisibility(View.VISIBLE);
         morph.setX(startCx - morph.getLayoutParams().width / 2f);

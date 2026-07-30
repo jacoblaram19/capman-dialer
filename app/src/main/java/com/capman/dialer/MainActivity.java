@@ -396,6 +396,18 @@ public class MainActivity extends BaseActivity
         key(R.id.keyStar, '*');
         key(R.id.keyHash, '#');
 
+        // A long press on 1-9 is speed dial
+        int[] speedIds = {R.id.key1, R.id.key2, R.id.key3, R.id.key4, R.id.key5,
+                R.id.key6, R.id.key7, R.id.key8, R.id.key9};
+        for (int i = 0; i < speedIds.length; i++) {
+            final char digit = (char) ('1' + i);
+            findViewById(speedIds[i]).setOnLongClickListener(v -> {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                speedDial(digit);
+                return true;
+            });
+        }
+
         // A long press on 0 types "+"
         findViewById(R.id.key0).setOnLongClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
@@ -450,6 +462,72 @@ public class MainActivity extends BaseActivity
             dialed.append(c);
             onDialedChanged();
         });
+    }
+
+    // ------------------------------------------------------------------ speed dial
+
+    /**
+     * A digit on the keypad was long-pressed.
+     *
+     * An empty slot asks you to pick a contact right away - saying "nothing
+     * assigned" and stopping would send you off to settings, when the natural
+     * place to assign it is here. A filled slot confirms first so a pocket press
+     * cannot place a call; that confirmation can be turned off in settings.
+     */
+    private void speedDial(char digit) {
+        String number = SpeedDial.number(this, digit);
+        if (number == null) {
+            askAssignSpeedDial(digit);
+            return;
+        }
+        if (!Prefs.speedDialConfirm(this)) {
+            Dial.call(this, number);
+            return;
+        }
+        io.execute(() -> {
+            Contact c = ContactsRepo.lookupByNumber(getContentResolver(), number);
+            final String who = c != null && !c.displayName().isEmpty()
+                    ? c.displayName() : PhoneUtil.pretty(number);
+            ui.post(() -> new AlertDialog.Builder(this)
+                    .setTitle(digit + " · speed dial")
+                    .setMessage("Call " + who + "?")
+                    .setPositiveButton("Call", (d, w) -> Dial.call(this, number))
+                    .setNeutralButton("Change", (d, w) -> askAssignSpeedDial(digit))
+                    .setNegativeButton(R.string.cancel, null)
+                    .show());
+        });
+    }
+
+    /** Assigns a contact to an empty slot, or replaces the one already there. */
+    private void askAssignSpeedDial(char digit) {
+        if (allContacts == null || allContacts.isEmpty()) {
+            Toast.makeText(this, "Contacts are still loading", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean assigned = SpeedDial.number(this, digit) != null;
+        AlertDialog.Builder b = new AlertDialog.Builder(this)
+                .setTitle("Key " + digit)
+                .setMessage(assigned
+                        ? "Assign a different contact to this key?"
+                        : "No contact is assigned to this key. Pick one now.")
+                .setPositiveButton("Pick contact", (d, w) -> ContactPicker.show(this,
+                        "Contact for key " + digit, allContacts, c -> {
+                            String n = c.primaryNumber();
+                            if (n == null) {
+                                Toast.makeText(this, "That contact has no number",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            SpeedDial.set(this, digit, n);
+                            Toast.makeText(this, digit + " \u2192 " + c.displayName(),
+                                    Toast.LENGTH_SHORT).show();
+                        }))
+                .setNegativeButton(R.string.cancel, null);
+        if (assigned) b.setNeutralButton("Remove", (d, w) -> {
+            SpeedDial.clear(this, digit);
+            Toast.makeText(this, "Key " + digit + " cleared", Toast.LENGTH_SHORT).show();
+        });
+        b.show();
     }
 
     // ------------------------------------------------------------------ tabs

@@ -35,15 +35,16 @@ public class MotionGestures implements SensorEventListener {
     private static final float FACE_DOWN_Z = -6.5f;
 
     /**
-     * How upright the phone must be to count as held to an ear. Kept loose,
-     * because people hold a phone at surprisingly shallow angles.
+     * How upright the phone must be to count as held to an ear. Loosened
+     * further: some people hold the phone almost flat and the old threshold
+     * sometimes never fired at all.
      */
-    private static final float UPRIGHT_Y = 2.5f;
+    private static final float UPRIGHT_Y = 1.6f;
     /** Only there to rule out a phone lying perfectly flat on a table. */
-    private static final float FLAT_Z = 8.5f;
+    private static final float FLAT_Z = 9.2f;
 
     /** Proximity has to stay covered this long, so a passing hand does nothing. */
-    private static final long EAR_HOLD_MS = 250;
+    private static final long EAR_HOLD_MS = 180;
 
     /** Low-pass filter on the accelerometer, to strip the shake out of the motion. */
     private static final float SMOOTH = 0.2f;

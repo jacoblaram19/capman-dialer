@@ -1,0 +1,4 @@
+Six themes for the incoming call screen: chomper, plain, rocket, balloon, football and cat.
+Pick a call screen background: six gradients or your own photo, with a blur slider and a live preview.
+Long-press 1-9 on the keypad for speed dial, with an optional confirmation.
+Raise-to-ear now triggers more reliably.

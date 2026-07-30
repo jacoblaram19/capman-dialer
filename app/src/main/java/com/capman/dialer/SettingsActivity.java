@@ -81,11 +81,16 @@ public class SettingsActivity extends BaseActivity {
 
         row(R.id.rowHistory, "Call history window", historyLabel(), this::chooseHistory);
         row(R.id.rowQuickReply, "Quick reply message", Prefs.quickReply(this), this::editQuickReply);
+        toggle(R.id.rowSpeedDialConfirm, "Confirm before speed dial",
+                speedDialLabel(), Prefs.SPEED_DIAL_CONFIRM, true);
 
         toggle(R.id.rowPowerDouble, "Double-press the power key",
                 "Rejects a call / hangs up the current one", Prefs.POWER_DOUBLE, true);
         toggle(R.id.rowVolumeSilence, "Volume key silences the ringer",
                 "The call is not rejected, only the ringer stops", Prefs.VOLUME_SILENCE, true);
+        row(R.id.rowCallStyle, "Call screen look",
+                CallThemes.label(Prefs.callTheme(this)) + " · " + backgroundLabel(),
+                () -> startActivity(CallStyleActivity.intent(this)));
         row(R.id.rowIncomingStyle, "Incoming call style", incomingStyleLabel(),
                 this::chooseIncomingStyle);
         toggle(R.id.rowPowerSilence, "Power key silences the ringer",
@@ -324,6 +329,18 @@ public class SettingsActivity extends BaseActivity {
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
+    }
+
+    private String speedDialLabel() {
+        int n = SpeedDial.count(this);
+        return n == 0
+                ? "Long-press 1-9 on the keypad \u2014 no keys assigned yet"
+                : n + " keys assigned \u00b7 a long press asks first";
+    }
+
+    private String backgroundLabel() {
+        if (Prefs.callBgImage(this) != null) return "your own photo";
+        return CallBackground.preset(Prefs.callBgPreset(this)).label.toLowerCase(PhoneUtil.LOCALE);
     }
 
     private String incomingStyleLabel() {

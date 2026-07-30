@@ -27,6 +27,18 @@ public final class Prefs {
     public static final String HISTORY_DAYS = "history_days";    // 0 = everything
     /** User-defined order of the favorites (contact ids, comma separated). */
     public static final String FAV_ORDER = "favorite_order";
+    /** Should speed dial ask "call them?" before dialling? */
+    public static final String SPEED_DIAL_CONFIRM = "speed_dial_confirm";
+
+    /** Visual theme of the incoming call screen (see CallThemes). */
+    public static final String CALL_THEME = "call_theme";
+    /** Background gradient (see CallBackground.PRESETS). */
+    public static final String CALL_BG_PRESET = "call_background";
+    /** Background photo; empty means use the gradient. */
+    public static final String CALL_BG_IMAGE = "call_background_image";
+    /** Blur strength of the background photo (0 - CallBackground.MAX_BLUR). */
+    public static final String CALL_BG_BLUR = "call_background_blur";
+
     /** Has the first-run tour been shown? */
     public static final String ONBOARDING_SEEN = "onboarding_seen";
 
@@ -84,6 +96,46 @@ public final class Prefs {
     /** Should a single press of the power key silence the ringer? */
     public static boolean powerSilence(Context ctx) {
         return get(ctx).getBoolean(POWER_SILENCE, true);
+    }
+
+    public static boolean speedDialConfirm(Context ctx) {
+        return get(ctx).getBoolean(SPEED_DIAL_CONFIRM, true);
+    }
+
+    public static int callTheme(Context ctx) {
+        return get(ctx).getInt(CALL_THEME, CallThemes.PACMAN);
+    }
+
+    public static void setCallTheme(Context ctx, int theme) {
+        get(ctx).edit().putInt(CALL_THEME, theme).apply();
+    }
+
+    /**
+     * Unset falls back to whatever suits the theme: white when light, midnight
+     * when dark. It always returned the dark one before, which is why a light
+     * theme user's call screen jumped to black the moment they changed theme.
+     */
+    public static String callBgPreset(Context ctx) {
+        return get(ctx).getString(CALL_BG_PRESET, CallBackground.defaultPreset(ctx).id);
+    }
+
+    /** @return the chosen photo's uri, or null when none is chosen */
+    public static String callBgImage(Context ctx) {
+        String s = get(ctx).getString(CALL_BG_IMAGE, "");
+        return s == null || s.isEmpty() ? null : s;
+    }
+
+    public static int callBgBlur(Context ctx) {
+        return get(ctx).getInt(CALL_BG_BLUR, 0);
+    }
+
+    /** Passing a null photo goes back to the gradient. */
+    public static void setCallBackground(Context ctx, String presetId, String imageUri, int blur) {
+        get(ctx).edit()
+                .putString(CALL_BG_PRESET, presetId)
+                .putString(CALL_BG_IMAGE, imageUri == null ? "" : imageUri)
+                .putInt(CALL_BG_BLUR, blur)
+                .apply();
     }
 
     public static boolean onboardingSeen(Context ctx) {

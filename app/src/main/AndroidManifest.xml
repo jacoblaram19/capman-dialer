@@ -198,6 +198,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".CallStyleActivity"
+            android:exported="false"
+            android:label="Call screen look" />
+
+        <activity
             android:name=".SettingsActivity"
             android:exported="false" />
 
