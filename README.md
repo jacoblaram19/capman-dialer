@@ -30,6 +30,9 @@ lock onto the wrong action.
   power key to silence and blank the screen
 * Proximity blanking during a call
 * Contacts import/export as .vcf
+* Six themes for the call screen, and a background you pick: gradients or
+  your own photo with adjustable blur
+* Speed dial on a long press of 1-9
 * Five selectable launcher icons
 * Light and dark themes
 * A first-run tour that lets you practise the gesture on a fake call
